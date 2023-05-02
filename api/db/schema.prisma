@@ -18,6 +18,7 @@ model User {
   resetTokenExpiresAt DateTime?
   roles               String
   PostPermissions     UserPostPermission[]
+  Posts               Post[]
 }
 
 model UserPostPermission {
@@ -36,5 +37,8 @@ model Post {
   title           String
   body            String
   createdAt       DateTime @default(now())
+
+  createdById     String
+  createdBy       User     @relation(fields: [createdById], references: [id])
   UserPermissions UserPostPermission[]
 }
