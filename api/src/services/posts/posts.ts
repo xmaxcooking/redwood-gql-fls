@@ -1,13 +1,33 @@
-import type {
-  QueryResolvers,
-  MutationResolvers,
-  PostRelationResolvers,
-} from 'types/graphql'
+import type { QueryResolvers, MutationResolvers } from 'types/graphql'
 
 import { db } from 'src/lib/db'
 
 export const posts: QueryResolvers['posts'] = () => {
-  return db.post.findMany()
+  return db.post.findMany({
+    where: {
+      OR: [
+        {
+          UserPermissions: {
+            some: {
+              AND: [
+                {
+                  userId: context.currentUser.id,
+                },
+                {
+                  permission: {
+                    contains: 'read',
+                  },
+                },
+              ],
+            },
+          },
+        },
+        {
+          createdById: context.currentUser.id,
+        },
+      ],
+    },
+  })
 }
 
 export const post: QueryResolvers['post'] = ({ id }) => {
@@ -18,7 +38,21 @@ export const post: QueryResolvers['post'] = ({ id }) => {
 
 export const createPost: MutationResolvers['createPost'] = ({ input }) => {
   return db.post.create({
-    data: input,
+    data: {
+      title: input.title,
+      body: input.body,
+      createdBy: {
+        connect: { id: context.currentUser.id },
+      },
+      UserPermissions: {
+        create: {
+          permission: 'read,write',
+          User: {
+            connect: { id: context.currentUser.id },
+          },
+        },
+      },
+    },
   })
 }
 
@@ -29,14 +63,16 @@ export const updatePost: MutationResolvers['updatePost'] = ({ id, input }) => {
   })
 }
 
-export const deletePost: MutationResolvers['deletePost'] = ({ id }) => {
-  return db.post.delete({
-    where: { id },
-  })
-}
-
-export const Post: PostRelationResolvers = {
-  UserPermissions: (_obj, { root }) => {
-    return db.post.findUnique({ where: { id: root?.id } }).UserPermissions()
-  },
+export const deletePost: MutationResolvers['deletePost'] = async ({ id }) => {
+  const [_relations, post] = await db.$transaction([
+    db.userPostPermission.deleteMany({
+      where: {
+        postId: id,
+      },
+    }),
+    db.post.delete({
+      where: { id },
+    }),
+  ])
+  return post
 }

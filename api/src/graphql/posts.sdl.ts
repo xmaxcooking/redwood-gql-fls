@@ -4,7 +4,6 @@ export const schema = gql`
     title: String!
     body: String!
     createdAt: DateTime!
-    UserPermissions: [UserPostPermission]!
   }
 
   type Query {
@@ -24,7 +23,19 @@ export const schema = gql`
 
   type Mutation {
     createPost(input: CreatePostInput!): Post! @requireAuth
-    updatePost(id: String!, input: UpdatePostInput!): Post! @requireAuth
-    deletePost(id: String!): Post! @requireAuth
+    updatePost(id: String!, input: UpdatePostInput!): Post!
+      @requireAuth
+      @requireAccess(
+        permission: "write"
+        for: "Post"
+        check: "UserPostPermission"
+      )
+    deletePost(id: String!): Post!
+      @requireAuth
+      @requireAccess(
+        permission: "delete"
+        for: "Post"
+        check: "UserPostPermission"
+      )
   }
 `

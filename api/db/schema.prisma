@@ -22,14 +22,14 @@ model User {
 }
 
 model UserPostPermission {
-  id        String @id @default(uuid())
-  userId    String
-  User      User   @relation(fields: [userId], references: [id])
-  postId    String
-  Post      Post   @relation(fields: [postId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  role      String // 'admin' || 'user'
+  id         String @id @default(uuid())
+  userId     String
+  User       User   @relation(fields: [userId], references: [id])
+  postId     String
+  Post       Post   @relation(fields: [postId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  permission String
 }
 
 model Post {
@@ -37,7 +37,6 @@ model Post {
   title           String
   body            String
   createdAt       DateTime @default(now())
-
   createdById     String
   createdBy       User     @relation(fields: [createdById], references: [id])
   UserPermissions UserPostPermission[]
