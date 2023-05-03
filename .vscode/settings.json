@@ -1,11 +1,34 @@
 {
   "editor.tabSize": 2,
   "files.trimTrailingWhitespace": true,
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
   "[prisma]": {
     "editor.formatOnSave": true
-  }
+  },
+  "files.exclude": {
+    "**/.keep": false,
+    "**/.yarn": false,
+
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/node_modules": true,
+
+    "**/.redwood": true,
+    "**/web/dist": true,
+    "**/api/dist": true,
+    "**/api/types": true,
+    "**/web/types": true
+  },
+  "debug.javascript.autoAttachFilter": "disabled",
+  "window.commandCenter": true,
+  "explorer.compactFolders": false
 }
