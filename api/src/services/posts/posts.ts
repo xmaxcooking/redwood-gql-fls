@@ -27,12 +27,18 @@ export const posts: QueryResolvers['posts'] = () => {
         },
       ],
     },
+    include: {
+      UserPermissions: true,
+    },
   })
 }
 
 export const post: QueryResolvers['post'] = ({ id }) => {
   return db.post.findUnique({
     where: { id },
+    include: {
+      UserPermissions: true,
+    },
   })
 }
 
@@ -46,7 +52,7 @@ export const createPost: MutationResolvers['createPost'] = ({ input }) => {
       },
       UserPermissions: {
         create: {
-          permission: 'read,write',
+          permission: 'read,write,delete',
           User: {
             connect: { id: context.currentUser.id },
           },

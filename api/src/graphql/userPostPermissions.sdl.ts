@@ -3,6 +3,6 @@ export const schema = gql`
     id: String!
     userId: String!
     postId: String!
-    role: String!
+    permission: String!
   }
 `

@@ -1,5 +1,8 @@
 import {
+  AuthenticationError,
   createValidatorDirective,
+  ForbiddenError,
+  UserInputError,
   ValidatorDirectiveFunc,
 } from '@redwoodjs/graphql-server'
 
@@ -19,11 +22,13 @@ export const schema = gql`
 
 const validate: ValidatorDirectiveFunc = async ({ context, directiveArgs }) => {
   if (!context.currentUser) {
-    throw new Error('You must be logged in to access this resource')
+    throw new AuthenticationError(
+      'You must be logged in to access this resource'
+    )
   }
 
   if (!(directiveArgs.check in db)) {
-    throw new Error(`The model to check access on does not exist`)
+    throw new UserInputError(`The model to check access on does not exist`)
   }
 
   const permission = await db[directiveArgs.check].findFirst({
@@ -49,7 +54,9 @@ const validate: ValidatorDirectiveFunc = async ({ context, directiveArgs }) => {
   })
 
   if (!permission) {
-    throw new Error(`You do not have permission to access this resource`)
+    throw new ForbiddenError(
+      `You do not have ${directiveArgs.permission} permission to access this resource`
+    )
   }
 }
 

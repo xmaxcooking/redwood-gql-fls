@@ -1,11 +1,11 @@
+import type { DeletePostMutationVariables, FindPosts } from 'types/graphql'
+
 import { Link, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import { QUERY } from 'src/components/Post/PostsCell'
 import { timeTag, truncate } from 'src/lib/formatters'
-
-import type { DeletePostMutationVariables, FindPosts } from 'types/graphql'
 
 const DELETE_POST_MUTATION = gql`
   mutation DeletePostMutation($id: String!) {
@@ -90,3 +90,40 @@ const PostsList = ({ posts }: FindPosts) => {
 }
 
 export default PostsList
+
+/*
+{post.UserPermissions.find((permission) =>
+  permission.permission.includes('read')
+) && (
+  <Link
+    to={routes.post({ id: post.id })}
+    title={'Show post ' + post.id + ' detail'}
+    className="rw-button rw-button-small"
+  >
+    Show
+  </Link>
+)}
+{post.UserPermissions.find((permission) =>
+  permission.permission.includes('write')
+) && (
+  <Link
+    to={routes.editPost({ id: post.id })}
+    title={'Edit post ' + post.id}
+    className="rw-button rw-button-small rw-button-blue"
+  >
+    Edit
+  </Link>
+)}
+{post.UserPermissions.find((permission) =>
+  permission.permission.includes('delete')
+) && (
+  <button
+    type="button"
+    title={'Delete post ' + post.id}
+    className="rw-button rw-button-small rw-button-red"
+    onClick={() => onDeleteClick(post.id)}
+  >
+    Delete
+  </button>
+)}
+*/
