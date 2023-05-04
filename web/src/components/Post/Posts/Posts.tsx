@@ -57,28 +57,40 @@ const PostsList = ({ posts }: FindPosts) => {
               <td>{timeTag(post.createdAt)}</td>
               <td>
                 <nav className="rw-table-actions">
-                  <Link
-                    to={routes.post({ id: post.id })}
-                    title={'Show post ' + post.id + ' detail'}
-                    className="rw-button rw-button-small"
-                  >
-                    Show
-                  </Link>
-                  <Link
-                    to={routes.editPost({ id: post.id })}
-                    title={'Edit post ' + post.id}
-                    className="rw-button rw-button-small rw-button-blue"
-                  >
-                    Edit
-                  </Link>
-                  <button
-                    type="button"
-                    title={'Delete post ' + post.id}
-                    className="rw-button rw-button-small rw-button-red"
-                    onClick={() => onDeleteClick(post.id)}
-                  >
-                    Delete
-                  </button>
+                  {post.UserPermissions.find((permission) =>
+                    permission.permission.includes('read')
+                  ) && (
+                    <Link
+                      to={routes.post({ id: post.id })}
+                      title={'Show post ' + post.id + ' detail'}
+                      className="rw-button rw-button-small"
+                    >
+                      Show
+                    </Link>
+                  )}
+                  {post.UserPermissions.find((permission) =>
+                    permission.permission.includes('write')
+                  ) && (
+                    <Link
+                      to={routes.editPost({ id: post.id })}
+                      title={'Edit post ' + post.id}
+                      className="rw-button rw-button-small rw-button-blue"
+                    >
+                      Edit
+                    </Link>
+                  )}
+                  {post.UserPermissions.find((permission) =>
+                    permission.permission.includes('delete')
+                  ) && (
+                    <button
+                      type="button"
+                      title={'Delete post ' + post.id}
+                      className="rw-button rw-button-small rw-button-red"
+                      onClick={() => onDeleteClick(post.id)}
+                    >
+                      Delete
+                    </button>
+                  )}
                 </nav>
               </td>
             </tr>
@@ -92,38 +104,29 @@ const PostsList = ({ posts }: FindPosts) => {
 export default PostsList
 
 /*
-{post.UserPermissions.find((permission) =>
-  permission.permission.includes('read')
-) && (
-  <Link
-    to={routes.post({ id: post.id })}
-    title={'Show post ' + post.id + ' detail'}
-    className="rw-button rw-button-small"
-  >
-    Show
-  </Link>
-)}
-{post.UserPermissions.find((permission) =>
-  permission.permission.includes('write')
-) && (
-  <Link
-    to={routes.editPost({ id: post.id })}
-    title={'Edit post ' + post.id}
-    className="rw-button rw-button-small rw-button-blue"
-  >
-    Edit
-  </Link>
-)}
-{post.UserPermissions.find((permission) =>
-  permission.permission.includes('delete')
-) && (
-  <button
-    type="button"
-    title={'Delete post ' + post.id}
-    className="rw-button rw-button-small rw-button-red"
-    onClick={() => onDeleteClick(post.id)}
-  >
-    Delete
-  </button>
-)}
+<Link
+  to={routes.post({ id: post.id })}
+  title={'Show post ' + post.id + ' detail'}
+  className="rw-button rw-button-small"
+>
+  Show
+</Link>
+<Link
+  to={routes.editPost({ id: post.id })}
+  title={'Edit post ' + post.id}
+  className="rw-button rw-button-small rw-button-blue"
+>
+  Edit
+</Link>
+<button
+  type="button"
+  title={'Delete post ' + post.id}
+  className="rw-button rw-button-small rw-button-red"
+  onClick={() => onDeleteClick(post.id)}
+>
+  Delete
+</button>
+
+
+
 */
