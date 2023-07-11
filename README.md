@@ -13,7 +13,7 @@ This repository demonstrates a proof-of-concept implementation of RLS using a cu
 To get started with the repository, clone it and install the dependencies:
 
 ```bash
-git clone https://github.com/your_username/your_repository.git
+git clone https://github.com/xmaxcooking/redwood-gql-rls.git
 cd your_repository
 yarn install
 ```
