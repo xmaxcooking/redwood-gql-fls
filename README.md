@@ -1,8 +1,8 @@
-# Row-Level-Security (RLS) on RedwoodJS Proof-of-Concept
+# Field-Level-Security (FLS) on RedwoodJS Proof-of-Concept
 
-Welcome to the Row-Level-Security (RLS) on RedwoodJS Proof-of-Concept repository!
+Welcome to the Field-Level-Security (RLS) on RedwoodJS Proof-of-Concept repository!
 
-This repository demonstrates a proof-of-concept implementation of RLS using a custom directive `@requireAccess` in RedwoodJS. The directive checks user permissions at a row-level on top of GraphQL SDLs.
+This repository demonstrates a proof-of-concept implementation of RLS using a custom directive `@requireAccess` in RedwoodJS. The directive checks user permissions at a field-level on top of GraphQL SDLs.
 
 ## Prerequisites
 
